@@ -31,7 +31,7 @@
         .timers-row {
             display: flex;
             gap: 1.8rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
         .timer-horiz-card {
@@ -102,12 +102,74 @@
             text-align: right;
             min-width: 240px;
         }
+
+        /* Smaller timers row (prep classes) */
+        .small-timers-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .small-timer-card {
+            flex: 1;
+            background: rgba(20, 30, 48, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 1.2rem;
+            transition: 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .small-timer-card:hover {
+            background: rgba(35, 48, 70, 0.7);
+            transform: translateY(-2px);
+        }
+        .small-timer-info {
+            flex: 2;
+        }
+        .prep-badge {
+            display: inline-block;
+            background: rgba(100, 150, 250, 0.8);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            color: white;
+            margin-bottom: 0.3rem;
+        }
+        .prep-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+        .prep-date {
+            font-size: 0.7rem;
+            color: #bbd0ff;
+        }
+        .timer-digits-small {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: monospace;
+            background: linear-gradient(135deg, #f0f4ff, #c6deff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .small-clock {
+            text-align: right;
+            min-width: 160px;
+        }
+
         @media (max-width: 780px) {
-            .timer-horiz-card {
+            .timer-horiz-card, .small-timer-card {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .timer-clock {
+            .timer-clock, .small-clock {
                 text-align: left;
                 width: 100%;
             }
@@ -156,7 +218,7 @@
             color: #ffb347;
         }
 
-        /* ========= ENHANCED GOOGLE DRIVE CARD ========= */
+        /* enhanced google drive card */
         .drive-card {
             background: linear-gradient(135deg, rgba(25, 35, 55, 0.7), rgba(15, 25, 45, 0.7));
             border-radius: 1.5rem;
@@ -203,10 +265,6 @@
             padding: 0.5rem 1rem;
             border-radius: 2rem;
             width: fit-content;
-        }
-        .folder-stats span i {
-            margin-right: 6px;
-            font-size: 0.7rem;
         }
         .drive-link {
             background: rgba(0, 0, 0, 0.35);
@@ -256,7 +314,7 @@
             padding-top: 0.8rem;
         }
 
-        /* tools grid (interesting) */
+        /* tools grid */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -292,7 +350,7 @@
             border-color: #ffbc6e;
         }
 
-        /* calendar mini */
+        /* calendar mini with tooltips */
         .calendar-twins {
             display: flex;
             flex-wrap: wrap;
@@ -329,12 +387,36 @@
             padding: 4px 0;
             border-radius: 20px;
             color: #eef3ff;
+            position: relative;
+            cursor: default;
         }
-        .cal-day.highlight {
+        .cal-day.highlight-exam {
             background: #ffb347;
             color: #0a0a0a;
             font-weight: 800;
             box-shadow: 0 0 4px #ffb347;
+        }
+        .cal-day.highlight-class {
+            background: #4f9eff;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 0 3px #4f9eff;
+        }
+        .cal-day[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000000cc;
+            backdrop-filter: blur(8px);
+            color: #ffefcf;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
         }
 
         /* todo list */
@@ -437,16 +519,24 @@
             font-size: 0.75rem;
             color: #99b0e0;
         }
+        .class-note {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            background: rgba(79, 158, 255, 0.2);
+            border-radius: 1rem;
+            padding: 0.4rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <div class="dashboard">
-    <!-- HORIZONTAL TIMERS ROW (full width, side by side) -->
+    <!-- MAIN EXAM TIMERS (Physics & Chemistry) -->
     <div class="timers-row">
         <div class="timer-horiz-card">
             <div class="timer-info">
-                <div class="dday-badge"><i class="fas fa-skull-crosswalk"></i> D-DAY 1 · CRITICAL</div>
-                <div class="exam-title">📘 Science Final · Part I</div>
+                <div class="dday-badge"><i class="fas fa-skull-crosswalk"></i> D-DAY 1 · PHYSICS</div>
+                <div class="exam-title">📘 Science Final · Paper 1 (Physics)</div>
                 <div class="exam-date">🗓️ May 27, 2026 · 9:00 AM</div>
             </div>
             <div class="timer-clock">
@@ -456,8 +546,8 @@
         </div>
         <div class="timer-horiz-card">
             <div class="timer-info">
-                <div class="dday-badge"><i class="fas fa-flask"></i> D-DAY 2 · FINAL</div>
-                <div class="exam-title">🧪 Science Final · Part II</div>
+                <div class="dday-badge"><i class="fas fa-flask"></i> D-DAY 2 · CHEMISTRY</div>
+                <div class="exam-title">🧪 Science Final · Paper 2 (Chemistry)</div>
                 <div class="exam-date">🗓️ June 12, 2026 · 9:00 AM</div>
             </div>
             <div class="timer-clock">
@@ -467,18 +557,47 @@
         </div>
     </div>
 
+    <!-- SMALLER PREP CLASS TIMERS (Physics prep & Chemistry prep) -->
+    <div class="small-timers-row">
+        <div class="small-timer-card">
+            <div class="small-timer-info">
+                <div class="prep-badge"><i class="fas fa-chalkboard"></i> PREP CLASS · PHYSICS</div>
+                <div class="prep-title">⚡ Exam Cram: Physics Focus</div>
+                <div class="prep-date">🗓️ May 22, 2026 · 12:30 – 14:30</div>
+            </div>
+            <div class="small-clock">
+                <div class="timer-digits-small" id="prepTimer1">--d --h --m --s</div>
+                <div class="timer-unit" style="font-size:0.7rem;">until session</div>
+            </div>
+        </div>
+        <div class="small-timer-card">
+            <div class="small-timer-info">
+                <div class="prep-badge"><i class="fas fa-chalkboard"></i> PREP CLASS · CHEMISTRY</div>
+                <div class="prep-title">🧪 Final Review: Chemistry</div>
+                <div class="prep-date">🗓️ June 11, 2026 · 12:00 – 14:00</div>
+            </div>
+            <div class="small-clock">
+                <div class="timer-digits-small" id="prepTimer2">--d --h --m --s</div>
+                <div class="timer-unit" style="font-size:0.7rem;">until session</div>
+            </div>
+        </div>
+    </div>
+
     <!-- MAIN GRID: other tools -->
     <div class="grid">
-        <!-- Calendar card + countdown context -->
+        <!-- Calendar card + countdown context with extra class info -->
         <div class="glass-card">
-            <div class="card-header"><i class="fas fa-calendar-alt"></i> Exam Calendar</div>
+            <div class="card-header"><i class="fas fa-calendar-alt"></i> Exam & Prep Calendar</div>
             <div class="calendar-twins" id="dynamicCalendars"></div>
+            <div class="class-note">
+                <i class="fas fa-info-circle"></i> <strong>Prep sessions:</strong> May 22 (Physics, 12:30–14:30) & June 11 (Chemistry, 12:00–14:00) — highlighted in blue.
+            </div>
             <div class="science-fact">
-                <i class="fas fa-stopwatch"></i> Highlighted: <strong>May 27</strong> & <strong>June 12</strong> — exam dates.
+                <i class="fas fa-stopwatch"></i> <strong>Paper 1 = Physics</strong> · <strong>Paper 2 = Chemistry</strong> · Prep classes mirror the subjects.
             </div>
         </div>
 
-        <!-- Google Drive card (enhanced, non-editable, hardcoded link) -->
+        <!-- Google Drive card (enhanced, non-editable) -->
         <div class="glass-card">
             <div class="card-header"><i class="fab fa-google-drive"></i> Class Drive Vault</div>
             <div class="drive-card">
@@ -513,7 +632,7 @@
             </div>
         </div>
 
-        <!-- Tools & Links (colorful but readable) -->
+        <!-- Tools & Links -->
         <div class="glass-card">
             <div class="card-header"><i class="fas fa-toolbox"></i> Science Toolkit</div>
             <div class="tools-grid">
@@ -569,7 +688,7 @@
             </div>
         </div>
     </div>
-    <footer>iOS Glass style · real‑time countdowns · ultimate science hub</footer>
+    <footer>NEXON Eco-system by Divan Barnard</footer>
 </div>
 
 <script>
@@ -579,8 +698,14 @@
     const timer1El = document.getElementById("timer1Display");
     const timer2El = document.getElementById("timer2Display");
     
+    // Prep timers: May 22, 12:30 ; June 11, 12:00
+    const prepDate1 = new Date(2026, 4, 22, 12, 30, 0);
+    const prepDate2 = new Date(2026, 5, 11, 12, 0, 0);
+    const prepTimer1El = document.getElementById("prepTimer1");
+    const prepTimer2El = document.getElementById("prepTimer2");
+
     function formatCountdown(distance) {
-        if (distance < 0) return "🎉 Exam done!";
+        if (distance < 0) return "🎉 Session started!";
         const days = Math.floor(distance / (1000*60*60*24));
         const hours = Math.floor((distance % (86400000)) / 3600000);
         const mins = Math.floor((distance % 3600000) / 60000);
@@ -588,18 +713,19 @@
         return `${days}d ${hours}h ${mins}m ${secs}s`;
     }
     
-    function updateBothTimers() {
+    function updateAllTimers() {
         const now = new Date().getTime();
-        const dist1 = examDate1.getTime() - now;
-        const dist2 = examDate2.getTime() - now;
-        if (timer1El) timer1El.innerText = formatCountdown(dist1);
-        if (timer2El) timer2El.innerText = formatCountdown(dist2);
+        if (timer1El) timer1El.innerText = formatCountdown(examDate1.getTime() - now);
+        if (timer2El) timer2El.innerText = formatCountdown(examDate2.getTime() - now);
+        if (prepTimer1El) prepTimer1El.innerText = formatCountdown(prepDate1.getTime() - now);
+        if (prepTimer2El) prepTimer2El.innerText = formatCountdown(prepDate2.getTime() - now);
     }
-    updateBothTimers();
-    setInterval(updateBothTimers, 1000);
+    updateAllTimers();
+    setInterval(updateAllTimers, 1000);
     
-    // ---------- CALENDARS: May & June 2026 with highlights ----------
-    function buildMonthCalendar(monthIndex, year, highlightDays) {
+    // ---------- CALENDARS: May & June 2026 with exam AND prep highlights + tooltips ----------
+    function buildMonthCalendar(monthIndex, year, examDays, prepDaysWithTooltip) {
+        // prepDaysWithTooltip: { day: string, tooltip: string }
         const firstDay = new Date(year, monthIndex, 1);
         const startWeek = firstDay.getDay();
         const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
@@ -611,22 +737,36 @@
             if (i < startWeek || dayCounter > daysInMonth) {
                 html += `<div class="cal-day"></div>`;
             } else {
-                const isHighlight = highlightDays.includes(dayCounter);
-                html += `<div class="cal-day ${isHighlight ? 'highlight' : ''}">${dayCounter}</div>`;
+                let isExam = examDays.includes(dayCounter);
+                let prepInfo = prepDaysWithTooltip[dayCounter];
+                let additionalClass = "";
+                let tooltipAttr = "";
+                if (isExam) {
+                    additionalClass = "highlight-exam";
+                } else if (prepInfo) {
+                    additionalClass = "highlight-class";
+                    tooltipAttr = ` data-tooltip="${prepInfo.tooltip}"`;
+                }
+                html += `<div class="cal-day ${additionalClass}"${tooltipAttr}>${dayCounter}</div>`;
                 dayCounter++;
             }
         }
         html += `</div></div>`;
         return html;
     }
+    
     function renderCalendars() {
-        const may = buildMonthCalendar(4, 2026, [27]);
-        const june = buildMonthCalendar(5, 2026, [12]);
-        document.getElementById("dynamicCalendars").innerHTML = may + june;
+        const examDaysMay = [27];
+        const examDaysJune = [12];
+        const prepMay = { 22: { tooltip: "Prep Class: Physics · 12:30–14:30" } };
+        const prepJune = { 11: { tooltip: "Prep Class: Chemistry · 12:00–14:00" } };
+        const mayCal = buildMonthCalendar(4, 2026, examDaysMay, prepMay);
+        const juneCal = buildMonthCalendar(5, 2026, examDaysJune, prepJune);
+        document.getElementById("dynamicCalendars").innerHTML = mayCal + juneCal;
     }
     renderCalendars();
     
-    // ---------- TO-DO LIST (localStorage) ----------
+    // ---------- TO-DO LIST (unchanged) ----------
     let todos = [];
     const todoContainer = document.getElementById("todoListContainer");
     const newTodoInput = document.getElementById("newTodoInput");
@@ -740,7 +880,7 @@
     updateRandomFact();
     setInterval(updateRandomFact, 16000);
     
-    // Pomodoro helper interaction
+    // Pomodoro helper
     const pomodoroDiv = document.getElementById("pomodoroTrigger");
     if (pomodoroDiv) {
         pomodoroDiv.addEventListener("click", () => {
